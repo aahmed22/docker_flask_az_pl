@@ -1,0 +1,48 @@
+trigger:
+- main
+
+resources:
+- repo: self
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: StopAndDeleteContainers
+    displayName: Stop and Delete Containers
+    pool:
+      name: ENTER_POOL_NAME
+    steps:
+    - script: |
+        containerId=$(docker ps -qf "ancestor=ENTER_IMAGE_NAME")
+        if [ -n "$containerId" ]; then
+          echo "Stopping container: $containerId"
+          docker stop $containerId
+          echo "Deleting container: $containerId"
+          docker rm $containerId
+        else
+          echo "No container with ancestor 'ENTER_IMAGE_NAME' found."
+        fi
+      displayName: Check and Stop/Delete Containers
+
+  - job: Build
+    dependsOn: StopAndDeleteContainers
+    displayName: Build
+    pool:
+      name: ENTER_POOL_NAME
+    steps:
+    - script: |
+        sudo docker build -t ENTER_IMAGE_NAME -f $(Build.SourcesDirectory)/Dockerfile .
+      displayName: Build an image
+
+- stage: Deploy
+  displayName: Deploy container
+  jobs:
+  - job: RunContainer
+    displayName: Run Container
+    pool:
+      name: ENTER_POOL_NAME
+    steps:
+    - script: |
+        sudo docker run -d -p 8000:8000 ENTER_IMAGE_NAME
+      displayName: Run Docker container
