@@ -101,3 +101,43 @@ Let's proceed with the next portion of the pipeline file:
 This section of the file showcases the "Deploy" Stage, which has a single job operation called "RunContainer". Once the two jobs finishes running during the Build stage it will proceed with excuting this stage and run the container based on the newly constructed Docker Image we just built. There you have it this command `sudo docker run -d -p 8000:8000 ENTER_IMAGE_NAME` will proceed with running your container. 
 
 **NOTE: PLEASE BE ADVISED YOU WILL HAVE TO ALREADY HAVE YOUR MACHINE NETWORK SECURITY GROUPS CONFIGURE TO ALLOW TRAFFIC TO PORT 8000. MY RECOMMENDATION IS TO HAVE PORT 8000 OPEN TO JUST YOUR IP ADDRESS SINCE WE ARE ONLY DOING TESTING.**
+
+## Part3: HTML PAGE
+So here is a preview of what the Docker Flask App should render when you access your "SERVER_IP_ADDRESS:8000" via browser:
+
+![HTML OUTPUT](/snapshots/html_output.PNG)
+
+Here is the HTML code:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <h1>Lorem Ipsum</h1>
+ 
+
+    <p>
+        Let's begin testing...
+    </p>
+
+    <blockquote>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus minus, molestias officia unde qui corrupti magnam eum suscipit quis eligendi reiciendis, alias, sapiente veritatis illo placeat fuga quasi temporibus doloremque.
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sed provident mollitia fuga necessitatibus, ad nostrum quidem voluptatum architecto sunt harum molestiae dolore, vel eum eos doloremque quae omnis aliquam quasi.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione nobis, hic autem doloribus, alias suscipit esse laborum nulla beatae, repellat vero accusantium praesentium inventore error molestias? Ea eius nihil fugiat.
+    </blockquote>
+
+    <a href="#">Check out my GitHub account! <span class="finger">👉</span></a>
+</body>
+</html>
+```
+
+I would recommend placing your GITHUB URL within the "anchor element" : `<a href="ENTER_GITHUB_URL">`  
+Or any other URL you want for testing out the page.
+
+Best of luck!
